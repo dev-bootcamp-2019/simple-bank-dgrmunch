@@ -1,6 +1,6 @@
 pragma solidity ^0.4.21;
 
-
+//Updated version of the project
 contract SimpleBank {
 
     // State variables    
