@@ -16,7 +16,7 @@ contract SimpleBank {
     // Functions
 
     constructor() public payable {
-       owner = msg.sender;
+        owner = msg.sender;
     }
 
     /// @notice Get balance
@@ -37,7 +37,7 @@ contract SimpleBank {
     /// @return The balance of the user after the deposit is made
     function deposit() public payable returns (uint) {
         
-        require(enrolled[msg.sender]);
+        require(enrolled[msg.sender], "Being enrolled is a requirement to deposit funds");
         
         balances[msg.sender] += msg.value;
         emit LogDepositMade(msg.sender, msg.value);
@@ -50,12 +50,12 @@ contract SimpleBank {
     /// @return The balance remaining for the user
     function withdraw(uint withdrawAmount) public returns (uint) {
       
-        require(enrolled[msg.sender]);
-        require(balances[msg.sender] >= withdrawAmount);
+        require(enrolled[msg.sender], "Being enrolled is a requirement to withdraw funds");
+        require(balances[msg.sender] >= withdrawAmount, "You cannot withdraw more than what you have in your balance");
         
         balances[msg.sender] = balances[msg.sender] - withdrawAmount;
         msg.sender.transfer(withdrawAmount);
-        emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender] );
+        emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
         return balances[msg.sender];
     }
 
